@@ -1,19 +1,23 @@
-
 <template>
-<div id="app">
-
-</div>
-
+  <v-app>
+    <v-main>
+      <HelloWorld/>
+    </v-main>
+  </v-app>
 </template>
 
 <script>
-export default{
+import HelloWorld from './components/HelloWorld.vue'
 
+export default {
+  name: 'App',
+
+  components: {
+    HelloWorld,
+  },
+
+  data: () => ({
+    //
+  }),
 }
-
 </script>
-
-
-<style scoped>
-
-</style>
