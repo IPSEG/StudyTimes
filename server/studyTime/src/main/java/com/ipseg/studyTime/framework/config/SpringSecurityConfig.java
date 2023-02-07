@@ -64,15 +64,18 @@ public class SpringSecurityConfig {
                 })
                 .deleteCookies("remember-me")
 
+                //rememberMe 설정
                 .and()
                 .rememberMe()
                 .rememberMeParameter("remember")
                 .tokenValiditySeconds(3600)
                 .alwaysRemember(false)
+
+                //로그인 세션 허용 개수 관리 및 고정 세션 방지 처리
                 .and()
                 .sessionManagement()
                 .sessionFixation().none()
-                .maximumSessions(2)
+                .maximumSessions(1)
                 .maxSessionsPreventsLogin(true); // 세션허용개수 초과 하면 로그인 불가 설정
 
         return http.build();
