@@ -3,15 +3,16 @@ package com.ipseg.studyTime.framework.config;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.SqlSessionTemplate;
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 
 import javax.sql.DataSource;
 import java.io.IOException;
 
 @Configuration
+@MapperScan("com.ipseg.studyTime.api.**.mapper")
 public class MybatisConfig {
 
     @Bean
@@ -19,7 +20,7 @@ public class MybatisConfig {
         SqlSessionFactoryBean factoryBean = new SqlSessionFactoryBean();
         factoryBean.setDataSource(dataSource);
         factoryBean.setMapperLocations(new PathMatchingResourcePatternResolver().getResources("classpath:mapper/*.xml"));
-        factoryBean.setConfigLocation(new ClassPathResource("/mybatis-config.xml"));
+//        factoryBean.setConfigLocation(new ClassPathResource("/mybatis-config.xml"));
         return factoryBean;
     }
 
