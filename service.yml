@@ -1,0 +1,18 @@
+version: '3.1'
+
+services:
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: vhtmrmfptm1!
+      POSTGRES_USERNAME: postgres
+    ports: 5432:5432
+    volume:
+      - db:/var/lib/postgresql/data
+  api:
+    image: ./server/studyTime/Dockerfile
+    ports: 8080:8080
+volumes:
+  db:
+    external: true
