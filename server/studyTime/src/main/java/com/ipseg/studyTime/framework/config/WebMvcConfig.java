@@ -7,13 +7,13 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 //@Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
-    @Bean
-    public FilterRegistrationBean filterRegistrationBean(){
-        // 생성자에 빈값으로 생성하면 안됨 notNull 에러남
-        FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean();
-        filterRegistrationBean.addUrlPatterns("/*");
-        filterRegistrationBean.setOrder(1);
-
-        return filterRegistrationBean;
-    }
+//    @Bean
+//    public FilterRegistrationBean filterRegistrationBean(){
+//        // 생성자에 빈값으로 생성하면 안됨 notNull 에러남
+//        FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean();
+//        filterRegistrationBean.addUrlPatterns("/*");
+//        filterRegistrationBean.setOrder(1);
+//
+//        return filterRegistrationBean;
+//    }
 }
