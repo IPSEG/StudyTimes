@@ -1,6 +1,7 @@
 package com.ipseg.studyTime.api.timer.service;
 
 import com.ipseg.studyTime.api.timer.mapper.TimerMapper;
+import com.ipseg.studyTime.api.timer.model.Timer;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,10 +19,14 @@ public class TimerService {
         this.timerMapper = timerMapper;
     }
 
-    public ResponseEntity<Object> addTimer(HashMap<String, Object> param) {
-        log.info("TimerService - addTimer : {}", param);
-        int result = timerMapper.timerAdd(param);
-        log.info("TimerService - addTimer complete: {}", param);
+    public ResponseEntity<Object> addTimer(Timer timer) {
+        HashMap<String, Object> dbMap = new HashMap<>();
+        dbMap.put("hour", timer.getHour());
+        dbMap.put("minute", timer.getMinute());
+        dbMap.put("seconds", timer.getSeconds());
+        dbMap.put("userKey", timer.getUserKey());
+
+        int result = timerMapper.timerAdd(dbMap);
 
         if(result == 1)
             return new ResponseEntity<Object>(HttpStatus.OK);
@@ -29,15 +34,26 @@ public class TimerService {
             return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
     }
 
-    public ResponseEntity<Object> getUserTimer(HashMap<String, Object> param) {
-        log.info("TimerService - getUserTimer : {}", param);
-        List<HashMap<String, Object>> timerList = timerMapper.getUserTimer(param);
-        log.info("TimerService - getUserTimer complete : {}", param);
+    public ResponseEntity<Object> getUserTimer(Timer timer) {
+        HashMap<String, Object> dbMap = new HashMap<>();
+        dbMap.put("userKey", timer.getUserKey());
+
+        List<HashMap<String, Object>> timerList = timerMapper.getUserTimer(dbMap);
 
         if(timerList.size() > 1) {
             return new ResponseEntity<Object>(timerList, HttpStatus.OK);
         } else {
             return new ResponseEntity<Object>(timerList, HttpStatus.OK);
         }
+    }
+
+    public ResponseEntity<Object> modifyTimer(Timer timer) {
+        HashMap<String, Object> dbMap = new HashMap<>();
+        dbMap.put("hour", timer.getHour());
+        dbMap.put("minute", timer.getMinute());
+        dbMap.put("seconds", timer.getSeconds());
+
+        timerMapper.
+        return new ResponseEntity<>("1", HttpStatus.OK);
     }
 }
