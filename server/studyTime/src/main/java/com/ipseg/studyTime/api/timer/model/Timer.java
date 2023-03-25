@@ -11,5 +11,5 @@ public class Timer {
     private int hour;
     private int minute;
     private int seconds;
-    private String userKey;
+    private String userSeq;
 }

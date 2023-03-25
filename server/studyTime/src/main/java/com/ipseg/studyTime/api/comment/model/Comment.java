@@ -9,6 +9,6 @@ public class Comment {
     private int commentSeq;
     private int timerSeq;
     private String content;
-    private String userKey;
+    private String userSeq;
     private String date;
 }

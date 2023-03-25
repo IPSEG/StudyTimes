@@ -24,7 +24,7 @@ public class TimerService {
         dbMap.put("hour", timer.getHour());
         dbMap.put("minute", timer.getMinute());
         dbMap.put("seconds", timer.getSeconds());
-        dbMap.put("userKey", timer.getUserKey());
+        dbMap.put("userKey", timer.getUserSeq());
 
         int result = timerMapper.timerAdd(dbMap);
 
@@ -36,7 +36,7 @@ public class TimerService {
 
     public ResponseEntity<Object> getUserTimer(Timer timer) {
         HashMap<String, Object> dbMap = new HashMap<>();
-        dbMap.put("userKey", timer.getUserKey());
+        dbMap.put("userKey", timer.getUserSeq());
 
         List<HashMap<String, Object>> timerList = timerMapper.getUserTimer(dbMap);
 
@@ -53,7 +53,7 @@ public class TimerService {
         dbMap.put("minute", timer.getMinute());
         dbMap.put("seconds", timer.getSeconds());
 
-        timerMapper.
+        timerMapper.modifyTimer(dbMap);
         return new ResponseEntity<>("1", HttpStatus.OK);
     }
 }

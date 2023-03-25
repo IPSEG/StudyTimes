@@ -12,7 +12,7 @@ import java.util.HashMap;
 
 @RestController
 @Slf4j
-@RequestMapping(value = "/timer")
+@RequestMapping(value = "/api/timer")
 public class TimerController {
 
     private final TimerService timerService;
@@ -23,19 +23,16 @@ public class TimerController {
 
     @RequestMapping("/addTimer")
     public ResponseEntity<Object> addTimer(@RequestBody Timer timer) {
-        log.info("TimerController - addTimer : {}", timer);
         return timerService.addTimer(timer);
     }
 
     @RequestMapping("/getUserTimer")
     public ResponseEntity<Object> getUserTimer(@RequestBody Timer timer) {
-        log.info("TimerController - getUserTimer : {}", timer);
         return timerService.getUserTimer(timer);
     }
 
     @RequestMapping("/modifyTimer")
     public ResponseEntity<Object> modifyTimer(@RequestBody Timer timer) {
-        log.info("TimerController - modifyTimer : {}", timer);
         return timerService.modifyTimer(timer);
     }
 }
