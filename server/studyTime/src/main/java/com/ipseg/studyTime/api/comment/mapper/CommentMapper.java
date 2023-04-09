@@ -7,7 +7,8 @@ import java.util.List;
 
 @Mapper
 public interface CommentMapper {
-    int findTimerByTimerSeq(HashMap<String, Object> param);
+    int getTimerByTimerSeq(HashMap<String, Object> param);
     int commentAdd(HashMap<String, Object> param);
     List<HashMap<String, Object>> getCommentList(HashMap<String, Object> param);
+    int modifyComment(HashMap<String, Object> param);
 }

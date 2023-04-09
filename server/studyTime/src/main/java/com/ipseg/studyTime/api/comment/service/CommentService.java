@@ -2,6 +2,8 @@ package com.ipseg.studyTime.api.comment.service;
 
 import com.ipseg.studyTime.api.comment.mapper.CommentMapper;
 import com.ipseg.studyTime.api.comment.model.Comment;
+import com.ipseg.studyTime.common.ResultCode;
+import com.ipseg.studyTime.common.response.ApiResultEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -22,22 +24,39 @@ public class CommentService {
         HashMap<String, Object> dbMap = new HashMap<>();
         dbMap.put("timerSeq", comment.getTimerSeq());
 
-        int timerCnt = commentMapper.findTimerByTimerSeq(dbMap);
+        int timer = commentMapper.getTimerByTimerSeq(dbMap);
 
-        if(timerCnt < 1)
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        if(timer < 1)
+            return ApiResultEntity.fail(ResultCode.ERROR_005);
 
-        commentMapper.commentAdd(dbMap);
+        int result = commentMapper.commentAdd(dbMap);
 
-        return new ResponseEntity<>(HttpStatus.OK);
+        return ApiResultEntity.success(result);
     }
 
     public ResponseEntity<Object> getCommentList(Comment comment) {
         HashMap<String, Object> dbMap = new HashMap<>();
         dbMap.put("timerSeq", comment.getTimerSeq());
 
+        int timer = commentMapper.getTimerByTimerSeq(dbMap);
+
+        if(timer < 1)
+            return ApiResultEntity.fail(ResultCode.ERROR_005);
+
         List<HashMap<String, Object>> commentList = commentMapper.getCommentList(dbMap);
 
-        return new ResponseEntity<>(commentList, HttpStatus.OK);
+        return ApiResultEntity.success(commentList);
+    }
+
+    public ResponseEntity<Object> modifyComment(Comment comment) {
+        HashMap<String, Object> dbMap = new HashMap<>();
+        dbMap.put("timerSeq", dbMap.get("timerSeq"));
+
+        if(comment.getCommentSeq() == null || comment.getTimerSeq() == null) {
+            return ApiResultEntity.fail(ResultCode.ERROR_006);
+        }
+
+        commentMapper.modifyComment(dbMap);
+        return ApiResultEntity.success();
     }
 }

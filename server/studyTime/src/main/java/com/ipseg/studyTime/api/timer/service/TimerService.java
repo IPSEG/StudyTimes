@@ -2,8 +2,8 @@ package com.ipseg.studyTime.api.timer.service;
 
 import com.ipseg.studyTime.api.timer.mapper.TimerMapper;
 import com.ipseg.studyTime.api.timer.model.Timer;
+import com.ipseg.studyTime.common.response.ApiResultEntity;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import java.util.HashMap;
@@ -24,36 +24,30 @@ public class TimerService {
         dbMap.put("hour", timer.getHour());
         dbMap.put("minute", timer.getMinute());
         dbMap.put("seconds", timer.getSeconds());
-        dbMap.put("userKey", timer.getUserSeq());
+        dbMap.put("userSeq", timer.getUserSeq());
+        timerMapper.timerAdd(dbMap);
 
-        int result = timerMapper.timerAdd(dbMap);
-
-        if(result == 1)
-            return new ResponseEntity<Object>(HttpStatus.OK);
-        else
-            return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
+        return ApiResultEntity.success();
     }
 
     public ResponseEntity<Object> getUserTimer(Timer timer) {
         HashMap<String, Object> dbMap = new HashMap<>();
-        dbMap.put("userKey", timer.getUserSeq());
+        dbMap.put("userSeq", timer.getUserSeq());
 
         List<HashMap<String, Object>> timerList = timerMapper.getUserTimer(dbMap);
 
-        if(timerList.size() > 1) {
-            return new ResponseEntity<Object>(timerList, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<Object>(timerList, HttpStatus.OK);
-        }
+        return ApiResultEntity.success(timerList);
     }
 
     public ResponseEntity<Object> modifyTimer(Timer timer) {
         HashMap<String, Object> dbMap = new HashMap<>();
+        dbMap.put("userSeq", timer.getUserSeq());
+        dbMap.put("timerSeq", timer.getTimerSeq());
         dbMap.put("hour", timer.getHour());
         dbMap.put("minute", timer.getMinute());
         dbMap.put("seconds", timer.getSeconds());
+        int result = timerMapper.modifyTimer(dbMap);
 
-        timerMapper.modifyTimer(dbMap);
-        return new ResponseEntity<>("1", HttpStatus.OK);
+        return ApiResultEntity.success(result);
     }
 }

@@ -6,9 +6,10 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Comment {
-    private int commentSeq;
-    private int timerSeq;
+    private Integer commentSeq;
+    private Integer timerSeq;
+    private Integer userSeq;
     private String content;
-    private String userSeq;
-    private String date;
+    private String createDate;
+    private String updateDate;
 }
