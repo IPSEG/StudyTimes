@@ -1,5 +1,6 @@
 package com.ipseg.studyTime.api.timer;
 
+import com.ipseg.studyTime.api.timer.model.Timer;
 import com.ipseg.studyTime.api.timer.service.TimerService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -21,14 +22,20 @@ public class TimerController {
     }
 
     @RequestMapping("/addTimer")
-    public ResponseEntity<Object> addTimer(@RequestBody HashMap<String, Object> param) {
-        log.info("TimerController - addTimer : {}", param);
-        return timerService.addTimer(param);
+    public ResponseEntity<Object> addTimer(@RequestBody Timer timer) {
+        log.info("TimerController - addTimer : {}", timer);
+        return timerService.addTimer(timer);
     }
 
     @RequestMapping("/getUserTimer")
-    public ResponseEntity<Object> getUserTimer(@RequestBody HashMap<String, Object> param) {
-        log.info("TimerController - getUserTimer : {}", param);
-        return timerService.getUserTimer(param);
+    public ResponseEntity<Object> getUserTimer(@RequestBody Timer timer) {
+        log.info("TimerController - getUserTimer : {}", timer);
+        return timerService.getUserTimer(timer);
+    }
+
+    @RequestMapping("/modifyTimer")
+    public ResponseEntity<Object> modifyTimer(@RequestBody Timer timer) {
+        log.info("TimerController - modifyTimer : {}", timer);
+        return timerService.modifyTimer(timer);
     }
 }

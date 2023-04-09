@@ -1,23 +1,26 @@
 <template>
-  <v-app>
-    <v-main>
-      <router-view></router-view>
-    </v-main>
+  <v-app id="app" class="layout">
+    <div>
+        <tool-bar></tool-bar>
+        <router-view></router-view>
+      </div>
   </v-app>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import ToolBar  from './components/ToolBar.vue'
 
 export default {
   name: 'App',
-
   components: {
-    HelloWorld,
+    ToolBar,
   },
-
-  data: () => ({
-    //
-  }),
 }
 </script>
+
+<style scoped>
+.layout {
+  text-align: center;
+  background-color: white;
+}
+</style>

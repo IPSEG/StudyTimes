@@ -22,4 +22,18 @@
         SELECT * FROM TIMER
         WHERE USER_KEY = #{userKey}
     </select>
+
+    <update id="modifyTimer" parameterType="hashmap">
+        UPDATE TIMER
+        <if test="hour != null">
+            SET HOUR = #{hour},
+        </if>
+        <if test="minute != null">
+            SET MINUTE = #{minute},
+        </if>
+        <if test="seconds != null">
+            SET SECONDS = #{seconds}
+        </if>
+        WHERE USER_KEY = #{userKey}
+    </update>
 </mapper>
