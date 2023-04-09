@@ -13,5 +13,5 @@ public class Timer {
     private int seconds;
     private String userSeq;
     private String createDate;
-    private String updateDate;
+    private String updateDate
 }

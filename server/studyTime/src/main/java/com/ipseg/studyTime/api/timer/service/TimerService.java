@@ -50,4 +50,14 @@ public class TimerService {
 
         return ApiResultEntity.success(result);
     }
+
+    public ResponseEntity<Object> modifyTimer(Timer timer) {
+        HashMap<String, Object> dbMap = new HashMap<>();
+        dbMap.put("hour", timer.getHour());
+        dbMap.put("minute", timer.getMinute());
+        dbMap.put("seconds", timer.getSeconds());
+
+        timerMapper.
+        return new ResponseEntity<>("1", HttpStatus.OK);
+    }
 }
