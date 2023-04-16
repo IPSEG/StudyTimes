@@ -12,7 +12,7 @@ import java.util.List;
 public interface TimerMapper {
 
     /** 타이머 추가 */
-    int timerAdd(HashMap<String, Object> param);
+    int addTimer(HashMap<String, Object> param);
 
     /** 타이머 수정 */
     int modifyTimer(HashMap<String, Object> param);
@@ -20,4 +20,6 @@ public interface TimerMapper {
     /** 사용자 타이머 조회 */
     List<HashMap<String, Object>> getUserTimer(HashMap<String, Object> param);
 
+    /** 타이머 삭제 */
+    int deleteTimer(HashMap<String, Object> param);
 }

@@ -9,7 +9,7 @@ public class Comment {
     private Integer commentSeq;
     private Integer timerSeq;
     private Integer userSeq;
-    private String content;
+    private String contents;
     private String createDate;
     private String updateDate;
 }
