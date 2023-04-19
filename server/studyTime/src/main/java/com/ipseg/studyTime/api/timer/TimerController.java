@@ -2,17 +2,16 @@ package com.ipseg.studyTime.api.timer;
 
 import com.ipseg.studyTime.api.timer.model.Timer;
 import com.ipseg.studyTime.api.timer.service.TimerService;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 
 @RestController
 @Slf4j
-@RequestMapping(value = "/timer")
+@RequestMapping(value = "/api/timer")
 public class TimerController {
 
     private final TimerService timerService;
@@ -21,21 +20,25 @@ public class TimerController {
         this.timerService = timerService;
     }
 
-    @RequestMapping("/addTimer")
+    @PostMapping
+    @ApiOperation(value = "타이머 추가")
     public ResponseEntity<Object> addTimer(@RequestBody Timer timer) {
-        log.info("TimerController - addTimer : {}", timer);
         return timerService.addTimer(timer);
     }
 
-    @RequestMapping("/getUserTimer")
+    @GetMapping
+    @ApiOperation(value = "타이머 조회")
     public ResponseEntity<Object> getUserTimer(@RequestBody Timer timer) {
-        log.info("TimerController - getUserTimer : {}", timer);
         return timerService.getUserTimer(timer);
     }
 
-    @RequestMapping("/modifyTimer")
+    @PutMapping
+    @ApiOperation(value = "타이머 수정")
     public ResponseEntity<Object> modifyTimer(@RequestBody Timer timer) {
-        log.info("TimerController - modifyTimer : {}", timer);
         return timerService.modifyTimer(timer);
     }
+
+    @DeleteMapping
+    @ApiOperation(value = "타이머 삭제")
+    public ResponseEntity<Object> deleteTimer(@RequestBody Timer timer) { return timerService.deleteTimer(timer);}
 }

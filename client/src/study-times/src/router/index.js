@@ -1,7 +1,6 @@
 import * as VueRouter from 'vue-router'
 import * as Names from './names'
 
-
 // https://router.vuejs.org/guide/advanced/meta.html
 // lazy loading routes
 const router = VueRouter.createRouter({
@@ -9,18 +8,9 @@ const router = VueRouter.createRouter({
   history: VueRouter.createWebHistory(),
   routes: [
     {
-      path: '/',
-      redirect: '/main'
-    },
-    {
-      path: '/main',
-      name: Names.MainPage, 
-      component: () => import('@/views/MainPage.vue')
-    },
-    {
       path: '/mypage',
       name: Names.MyPage,
-      component: () => import('@/views/mypage/index.vue')
+      component: () => import('../views/mypage/index.vue')
     }
   ],
 })

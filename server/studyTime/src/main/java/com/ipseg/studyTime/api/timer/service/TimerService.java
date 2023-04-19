@@ -2,8 +2,9 @@ package com.ipseg.studyTime.api.timer.service;
 
 import com.ipseg.studyTime.api.timer.mapper.TimerMapper;
 import com.ipseg.studyTime.api.timer.model.Timer;
+import com.ipseg.studyTime.common.ResultCode;
+import com.ipseg.studyTime.common.response.ApiResultEntity;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import java.util.HashMap;
@@ -21,39 +22,48 @@ public class TimerService {
 
     public ResponseEntity<Object> addTimer(Timer timer) {
         HashMap<String, Object> dbMap = new HashMap<>();
-        dbMap.put("hour", timer.getHour());
-        dbMap.put("minute", timer.getMinute());
+        dbMap.put("days", timer.getDays());
+        dbMap.put("hours", timer.getHours());
+        dbMap.put("minutes", timer.getMinutes());
         dbMap.put("seconds", timer.getSeconds());
-        dbMap.put("userKey", timer.getUserKey());
+        dbMap.put("userSeq", timer.getUserSeq());
+        timerMapper.addTimer(dbMap);
 
-        int result = timerMapper.timerAdd(dbMap);
-
-        if(result == 1)
-            return new ResponseEntity<Object>(HttpStatus.OK);
-        else
-            return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
+        return ApiResultEntity.success();
     }
 
     public ResponseEntity<Object> getUserTimer(Timer timer) {
         HashMap<String, Object> dbMap = new HashMap<>();
-        dbMap.put("userKey", timer.getUserKey());
+        dbMap.put("userSeq", timer.getUserSeq());
 
         List<HashMap<String, Object>> timerList = timerMapper.getUserTimer(dbMap);
 
-        if(timerList.size() > 1) {
-            return new ResponseEntity<Object>(timerList, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<Object>(timerList, HttpStatus.OK);
-        }
+        return ApiResultEntity.success(timerList);
     }
 
     public ResponseEntity<Object> modifyTimer(Timer timer) {
         HashMap<String, Object> dbMap = new HashMap<>();
-        dbMap.put("hour", timer.getHour());
-        dbMap.put("minute", timer.getMinute());
+        dbMap.put("userSeq", timer.getUserSeq());
+        dbMap.put("timerSeq", timer.getTimerSeq());
+        dbMap.put("days", timer.getDays());
+        dbMap.put("hours", timer.getHours());
+        dbMap.put("minutes", timer.getMinutes());
         dbMap.put("seconds", timer.getSeconds());
+        int result = timerMapper.modifyTimer(dbMap);
 
-        timerMapper.
-        return new ResponseEntity<>("1", HttpStatus.OK);
+        return ApiResultEntity.success(result);
+    }
+
+    public ResponseEntity<Object> deleteTimer(Timer timer) {
+        HashMap<String, Object> dbMap = new HashMap<>();
+        dbMap.put("timerSeq", timer.getTimerSeq());
+
+        if(timer.getTimerSeq() == null) {
+            return ApiResultEntity.fail(ResultCode.ERROR_006);
+        }
+
+        int result = timerMapper.deleteTimer(dbMap);
+
+        return ApiResultEntity.success(result);
     }
 }
