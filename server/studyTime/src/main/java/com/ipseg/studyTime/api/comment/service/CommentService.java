@@ -4,6 +4,8 @@ import com.ipseg.studyTime.api.comment.mapper.CommentMapper;
 import com.ipseg.studyTime.api.comment.model.Comment;
 import com.ipseg.studyTime.common.ResultCode;
 import com.ipseg.studyTime.common.response.ApiResultEntity;
+import com.ipseg.studyTime.repository.comment.CommentRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -11,13 +13,12 @@ import java.util.HashMap;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class CommentService {
 
-    private final CommentMapper commentMapper;
+//    private final CommentMapper commentMapper;
+    private final CommentRepository commentRepository;
 
-    public CommentService(CommentMapper commentMapper) {
-        this.commentMapper = commentMapper;
-    }
 
     public ResponseEntity<Object> addComment(Comment comment) {
         HashMap<String, Object> dbMap = new HashMap<>();
@@ -25,12 +26,12 @@ public class CommentService {
         dbMap.put("userSeq", comment.getUserSeq());
         dbMap.put("contents", comment.getContents());
 
-        int timer = commentMapper.getTimerByTimerSeq(dbMap);
+        int timer = commentRepository.getTimerByTimerSeq(dbMap);
 
         if(timer < 1)
             return ApiResultEntity.fail(ResultCode.ERROR_005);
 
-        int result = commentMapper.addComment(dbMap);
+        int result = commentRepository.addComment(dbMap);
 
         return ApiResultEntity.success(result);
     }
@@ -39,12 +40,12 @@ public class CommentService {
         HashMap<String, Object> dbMap = new HashMap<>();
         dbMap.put("timerSeq", comment.getTimerSeq());
 
-        int timer = commentMapper.getTimerByTimerSeq(dbMap);
+        int timer = commentRepository.getTimerByTimerSeq(dbMap);
 
         if(timer < 1)
             return ApiResultEntity.fail(ResultCode.ERROR_005);
 
-        List<HashMap<String, Object>> commentList = commentMapper.getCommentList(dbMap);
+        List<HashMap<String, Object>> commentList = commentRepository.getCommentList(dbMap);
 
         return ApiResultEntity.success(commentList);
     }
@@ -59,7 +60,7 @@ public class CommentService {
             return ApiResultEntity.fail(ResultCode.ERROR_006);
         }
 
-        commentMapper.modifyComment(dbMap);
+        commentRepository.modifyComment(dbMap);
         return ApiResultEntity.success();
     }
 
@@ -71,7 +72,7 @@ public class CommentService {
             return ApiResultEntity.fail(ResultCode.ERROR_006);
         }
 
-        int result = commentMapper.deleteComment(dbMap);
+        int result = commentRepository.deleteComment(dbMap);
 
         return ApiResultEntity.success(result);
     }

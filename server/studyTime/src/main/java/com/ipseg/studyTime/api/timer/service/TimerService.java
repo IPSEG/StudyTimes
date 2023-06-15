@@ -4,6 +4,8 @@ import com.ipseg.studyTime.api.timer.mapper.TimerMapper;
 import com.ipseg.studyTime.api.timer.model.Timer;
 import com.ipseg.studyTime.common.ResultCode;
 import com.ipseg.studyTime.common.response.ApiResultEntity;
+import com.ipseg.studyTime.repository.timer.TimerRepository;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -12,13 +14,9 @@ import java.util.List;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class TimerService {
-
-    TimerMapper timerMapper;
-
-    public TimerService(TimerMapper timerMapper) {
-        this.timerMapper = timerMapper;
-    }
+    private final TimerRepository timerRepository;
 
     public ResponseEntity<Object> addTimer(Timer timer) {
         HashMap<String, Object> dbMap = new HashMap<>();
@@ -27,7 +25,7 @@ public class TimerService {
         dbMap.put("minutes", timer.getMinutes());
         dbMap.put("seconds", timer.getSeconds());
         dbMap.put("userSeq", timer.getUserSeq());
-        timerMapper.addTimer(dbMap);
+        timerRepository.addTimer(dbMap);
 
         return ApiResultEntity.success();
     }
@@ -36,7 +34,7 @@ public class TimerService {
         HashMap<String, Object> dbMap = new HashMap<>();
         dbMap.put("userSeq", timer.getUserSeq());
 
-        List<HashMap<String, Object>> timerList = timerMapper.getUserTimer(dbMap);
+        List<HashMap<String, Object>> timerList = timerRepository.getUserTimer(dbMap);
 
         return ApiResultEntity.success(timerList);
     }
@@ -49,7 +47,7 @@ public class TimerService {
         dbMap.put("hours", timer.getHours());
         dbMap.put("minutes", timer.getMinutes());
         dbMap.put("seconds", timer.getSeconds());
-        int result = timerMapper.modifyTimer(dbMap);
+        int result = timerRepository.modifyTimer(dbMap);
 
         return ApiResultEntity.success(result);
     }
@@ -62,7 +60,7 @@ public class TimerService {
             return ApiResultEntity.fail(ResultCode.ERROR_006);
         }
 
-        int result = timerMapper.deleteTimer(dbMap);
+        int result = timerRepository.deleteTimer(dbMap);
 
         return ApiResultEntity.success(result);
     }
