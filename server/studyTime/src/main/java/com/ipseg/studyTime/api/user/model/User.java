@@ -7,9 +7,7 @@ import lombok.Setter;
 @Setter
 public class User {
     private String encId;
-    private String encPw;
-    private String encPwRe;
+    private String encPass;
+    private String encPassCheck;
     private String encName;
-    private String encEmail;
-    private String encSecreatKey;
 }
