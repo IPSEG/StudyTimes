@@ -1,36 +1,34 @@
-//package com.ipseg.studyTime.framework.config;
-//
-//import org.slf4j.Logger;
-//import org.slf4j.LoggerFactory;
-//import org.springframework.context.annotation.Bean;
-//import org.springframework.context.annotation.Configuration;
-//import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-//import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-//import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-//import org.springframework.security.core.Authentication;
-//import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-//import org.springframework.security.crypto.password.PasswordEncoder;
-//import org.springframework.security.web.SecurityFilterChain;
-//import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
-//import org.springframework.security.web.authentication.logout.LogoutHandler;
-//import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
-//
-//import javax.servlet.ServletException;
-//import javax.servlet.http.HttpServletRequest;
-//import javax.servlet.http.HttpServletResponse;
-//import javax.servlet.http.HttpSession;
-//import java.io.IOException;
-//
-//@Configuration
-//@EnableWebSecurity
-//public class SecurityConfig {
-//
-//    Logger logger = LoggerFactory.getLogger(SecurityConfig.class);
-//
-////    @Override
-////    protected void configure(AuthenticationManagerBuilder builder) {
-////    }
-//
+package com.ipseg.studyTime.framework.config;
+
+import com.ipseg.studyTime.security.filter.JwtAuthenticateFilter;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+@Slf4j
+@Configuration
+@EnableWebSecurity
+public class SecurityConfig {
+
+    @Autowired
+    public JwtAuthenticateFilter jwtAuthenticateFilter;
+
+    @Bean
+    protected SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http.csrf().disable()
+                .authorizeRequests().anyRequest().authenticated();
+        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+        http.addFilterBefore(jwtAuthenticateFilter, UsernamePasswordAuthenticationFilter.class);
+        return http.build();
+    }
+
+    //참고용으로 임시로 남겨 놓음.
 //    @Bean
 //    protected SecurityFilterChain configure(HttpSecurity http) throws Exception {
 //        http
@@ -87,9 +85,4 @@
 //
 //        return http.build();
 //    }
-//
-//    @Bean
-//    public PasswordEncoder passwordEncoder() {
-//        return new BCryptPasswordEncoder();
-//    }
-//}
+}
