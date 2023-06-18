@@ -1,7 +1,11 @@
 package com.ipseg.studyTime.security.filter;
 
 import com.ipseg.studyTime.security.JwtUtil;
-import io.jsonwebtoken.Claims;
+import com.ipseg.studyTime.security.provider.JwtTokensProvider;
+import com.nimbusds.oauth2.sdk.util.StringUtils;
+
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -16,6 +20,7 @@ import java.security.NoSuchAlgorithmException;
 public class JwtAuthenticateFilter extends OncePerRequestFilter {
 
     private JwtUtil jwtUtil = new JwtUtil();
+    private JwtTokensProvider jwtTokensProvider = new JwtTokensProvider();
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String authorization = request.getHeader("Authorization");
@@ -25,9 +30,12 @@ public class JwtAuthenticateFilter extends OncePerRequestFilter {
         if(authorization != null && authorization.startsWith("Bearer ")) {
             token = authorization.substring(7);
             try {
-                Claims claims = jwtUtil.getAllClaims(token);
-                System.out.println(claims);
-            } catch (NoSuchAlgorithmException e) {
+                if(StringUtils.isBlank(token) && jwtTokensProvider.validate(token)) {
+                    Authentication auth = jwtTokensProvider.getAuthentication(token);    // 인증 객체 생성
+                    SecurityContextHolder.getContext().setAuthentication(auth);
+                }
+
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
