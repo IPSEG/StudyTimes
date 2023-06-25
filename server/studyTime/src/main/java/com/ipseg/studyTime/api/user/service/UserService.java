@@ -1,7 +1,6 @@
 package com.ipseg.studyTime.api.user.service;
 
 import com.ipseg.studyTime.api.user.model.User;
-import com.ipseg.studyTime.api.user.model.UserJoinResponse;
 import com.ipseg.studyTime.common.ResultCode;
 import com.ipseg.studyTime.common.response.ApiResultEntity;
 import com.ipseg.studyTime.common.response.BusinessException;
@@ -13,7 +12,7 @@ import org.springframework.stereotype.Service;
 @Service
 @Slf4j
 public class UserService {
-    public UserJoinResponse joinUser(User user) {
+    public User joinUser(User user) {
         String decId = user.getEncId();
         String encPass = user.getEncPass();
         String encPassCheck = user.getEncPassCheck();
@@ -28,7 +27,7 @@ public class UserService {
             throw new BusinessException(ResultCode.ERROR_008);
         }
 
-        return UserJoinResponse.of(user);
+        return user;
     }
 
 }
