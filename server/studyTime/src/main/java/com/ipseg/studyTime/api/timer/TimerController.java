@@ -1,6 +1,8 @@
 package com.ipseg.studyTime.api.timer;
 
 import com.ipseg.studyTime.api.timer.model.Timer;
+import com.ipseg.studyTime.api.timer.model.TimerCreateRequest;
+import com.ipseg.studyTime.api.timer.model.TimerCreateResponse;
 import com.ipseg.studyTime.api.timer.service.TimerService;
 import com.ipseg.studyTime.common.response.ApiResult;
 import com.ipseg.studyTime.common.response.ApiResultEntity;
@@ -26,8 +28,11 @@ public class TimerController {
 
     @PostMapping
     @ApiOperation(value = "타이머 추가")
-    public ResponseEntity<ApiResult<Timer>> addTimer(@RequestBody Timer timer) {
-        ResponseEntity<ApiResult<Timer>> success = ApiResultEntity.success(timerService.addTimer(timer));
+    public ResponseEntity<ApiResult<Timer.CreateResponse>> addTimer(@RequestBody Timer.CreateRequest body) {
+        Timer timer = Timer.CreateRequest.toEntity(body);
+        timer = timerService.addTimer(timer);
+        Timer.CreateResponse response = Timer.CreateResponse.of(timer);
+        ResponseEntity<ApiResult<Timer.CreateResponse>> success = ApiResultEntity.success(response);
         return success;
     }
 
