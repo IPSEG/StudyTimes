@@ -19,17 +19,25 @@ public class CommentController {
 
     @PostMapping
     @ApiOperation(value = "타이머 메모 추가")
-    public ResponseEntity<Object> addComment(@RequestBody Comment comment) { return commentService.addComment(comment);}
+    public ResponseEntity<Object> addComment(@RequestBody Comment comment) {
+        return commentService.addComment(comment);
+    }
 
     @GetMapping
     @ApiOperation(value = "타이머 메모 조회")
-    public ResponseEntity<Object> getComment(@RequestBody Comment comment) { return commentService.getCommentList(comment);}
+    public ResponseEntity<Object> getComment(@RequestBody Comment comment) {
+        return commentService.getCommentList(comment);
+    }
 
     @PutMapping
     @ApiOperation(value = "타이머 메모 수정")
-    public ResponseEntity<Object> modifyComment(@RequestBody Comment comment) { return commentService.modifyComment(comment);}
+    public ResponseEntity<Object> modifyComment(@RequestBody Comment comment) {
+        return commentService.modifyComment(comment);
+    }
 
     @DeleteMapping
     @ApiOperation(value = "타이머 메모 삭제")
-    public ResponseEntity<Object> deleteComment(@RequestBody Comment comment) { return commentService.deleteComment(comment);}
+    public ResponseEntity<Object> deleteComment(@RequestBody Comment comment) {
+        return commentService.deleteComment(comment);
+    }
 }

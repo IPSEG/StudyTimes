@@ -40,5 +40,7 @@ public class TimerController {
 
     @DeleteMapping
     @ApiOperation(value = "타이머 삭제")
-    public ResponseEntity<Object> deleteTimer(@RequestBody Timer timer) { return timerService.deleteTimer(timer);}
+    public ResponseEntity<Object> deleteTimer(@RequestBody Timer timer) {
+        return timerService.deleteTimer(timer);
+    }
 }
