@@ -11,7 +11,8 @@ public enum ResultCode {
     ERROR_005("005", "타이머 정보가 존재하지 않습니다."),
     ERROR_006("006", "파라미터 정보가 존재하지 않습니다."),
     ERROR_007("007", "비밀번호와 재확인 비밀번호가 동일하지 않습니다."),
-    ERROR_008("008", "아이디는 10자 이하여야 합니다.");
+    ERROR_008("008", "아이디는 10자 이하여야 합니다."),
+    ERROR_009("009","타이머 메모 생성 실패하였습니다");
 
     private final String resultCode;
     private final String resultMsg;

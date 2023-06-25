@@ -11,7 +11,7 @@ public class ApiResultEntity {
         return new ResponseEntity<>(body, HttpStatus.OK);
     }
 
-    public static <T> ResponseEntity<Object> success(T data) {
+    public static <T> ResponseEntity<ApiResult<T>> success(T data) {
         final ApiResult<T> body = new ApiResult<>(ResultCode.SUCCESS.code(), ResultCode.SUCCESS.msg(), data);
         return new ResponseEntity<>(body, HttpStatus.OK);
     }
