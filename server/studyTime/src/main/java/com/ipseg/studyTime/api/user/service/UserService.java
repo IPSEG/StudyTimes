@@ -23,10 +23,6 @@ public class UserService {
             throw new BusinessException(ResultCode.ERROR_007);
         }
 
-        if(decId.length() > 10) {
-            throw new BusinessException(ResultCode.ERROR_008);
-        }
-
         return user;
     }
 
