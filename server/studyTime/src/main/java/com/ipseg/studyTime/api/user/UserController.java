@@ -1,7 +1,10 @@
 package com.ipseg.studyTime.api.user;
 
 import com.ipseg.studyTime.api.user.model.User;
+import com.ipseg.studyTime.api.user.model.UserJoinResponse;
 import com.ipseg.studyTime.api.user.service.UserService;
+import com.ipseg.studyTime.common.response.ApiResult;
+import com.ipseg.studyTime.common.response.ApiResultEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,8 +24,8 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<Object> joinUser(@RequestBody User user) {
-        log.info("testeste");
-        return this.userService.joinUser(user);
+    public ResponseEntity<ApiResult<UserJoinResponse>> joinUser(@RequestBody User user) {
+        ResponseEntity<ApiResult<UserJoinResponse>> success = ApiResultEntity.success(this.userService.joinUser(user));
+        return success;
     }
 }

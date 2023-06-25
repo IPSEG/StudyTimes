@@ -91,10 +91,6 @@ public class CommentService {
         }
 
         int result = commentMapper.deleteComment(dbMap);
-        if (result <= 0) {
-            throw new BusinessException(ResultCode.ERROR_001);
-        }
-
-        return true;
+        return result > 0;
     }
 }

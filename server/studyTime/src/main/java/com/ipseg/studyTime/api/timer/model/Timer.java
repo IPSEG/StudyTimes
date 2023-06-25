@@ -1,10 +1,10 @@
 package com.ipseg.studyTime.api.timer.model;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
+@Builder
 public class Timer {
     private Integer timerSeq;
     private Integer userSeq;

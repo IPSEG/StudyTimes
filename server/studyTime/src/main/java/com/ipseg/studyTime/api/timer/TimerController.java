@@ -2,12 +2,16 @@ package com.ipseg.studyTime.api.timer;
 
 import com.ipseg.studyTime.api.timer.model.Timer;
 import com.ipseg.studyTime.api.timer.service.TimerService;
+import com.ipseg.studyTime.common.response.ApiResult;
+import com.ipseg.studyTime.common.response.ApiResultEntity;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Time;
 import java.util.HashMap;
+import java.util.List;
 
 @RestController
 @Slf4j
@@ -22,25 +26,29 @@ public class TimerController {
 
     @PostMapping
     @ApiOperation(value = "타이머 추가")
-    public ResponseEntity<Object> addTimer(@RequestBody Timer timer) {
-        return timerService.addTimer(timer);
+    public ResponseEntity<ApiResult<Timer>> addTimer(@RequestBody Timer timer) {
+        ResponseEntity<ApiResult<Timer>> success = ApiResultEntity.success(timerService.addTimer(timer));
+        return success;
     }
 
     @GetMapping
     @ApiOperation(value = "타이머 조회")
-    public ResponseEntity<Object> getUserTimer(@RequestBody Timer timer) {
-        return timerService.getUserTimer(timer);
+    public ResponseEntity<ApiResult<List<Timer>>> getUserTimer(@RequestBody Timer timer) {
+        ResponseEntity<ApiResult<List<Timer>>> success = ApiResultEntity.success(timerService.getUserTimer(timer));
+        return success;
     }
 
     @PutMapping
     @ApiOperation(value = "타이머 수정")
-    public ResponseEntity<Object> modifyTimer(@RequestBody Timer timer) {
-        return timerService.modifyTimer(timer);
+    public ResponseEntity<ApiResult<Timer>> modifyTimer(@RequestBody Timer timer) {
+        ResponseEntity<ApiResult<Timer>> success = ApiResultEntity.success(timerService.modifyTimer(timer));
+        return success;
     }
 
     @DeleteMapping
     @ApiOperation(value = "타이머 삭제")
-    public ResponseEntity<Object> deleteTimer(@RequestBody Timer timer) {
-        return timerService.deleteTimer(timer);
+    public ResponseEntity<ApiResult<Boolean>> deleteTimer(@RequestBody Timer timer) {
+        ResponseEntity<ApiResult<Boolean>> success = ApiResultEntity.success(timerService.deleteTimer(timer));
+        return success;
     }
 }
