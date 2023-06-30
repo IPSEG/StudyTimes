@@ -1,8 +1,8 @@
 package com.ipseg.studyTime.api.user;
 
 import com.ipseg.studyTime.api.user.model.User;
-import com.ipseg.studyTime.api.user.model.UserJoinRequest;
-import com.ipseg.studyTime.api.user.model.UserJoinResponse;
+import com.ipseg.studyTime.api.user.dto.userJoin.UserJoinRequest;
+import com.ipseg.studyTime.api.user.dto.userJoin.UserJoinResponse;
 import com.ipseg.studyTime.api.user.service.UserService;
 import com.ipseg.studyTime.common.response.ApiResult;
 import com.ipseg.studyTime.common.response.ApiResultEntity;
@@ -26,8 +26,7 @@ public class UserController {
 
     @PostMapping
     public ResponseEntity<ApiResult<UserJoinResponse>> joinUser(@RequestBody UserJoinRequest body) {
-        User user = this.userService.joinUser(UserJoinRequest.toEntity(body));
-        ResponseEntity<ApiResult<UserJoinResponse>> success = ApiResultEntity.success(UserJoinResponse.of(user));
+        ResponseEntity<ApiResult<UserJoinResponse>> success = ApiResultEntity.success(this.userService.joinUser(body));
         return success;
     }
 }
