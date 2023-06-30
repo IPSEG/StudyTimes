@@ -1,14 +1,22 @@
 package com.ipseg.studyTime.api.comment.service;
 
+import com.ipseg.studyTime.api.comment.dto.CommentDelete.CommentDeleteRequest;
+import com.ipseg.studyTime.api.comment.dto.CommentDelete.CommentDeleteResponse;
+import com.ipseg.studyTime.api.comment.dto.CommentDto;
+import com.ipseg.studyTime.api.comment.dto.commentCreate.CommentCreateRequest;
+import com.ipseg.studyTime.api.comment.dto.commentCreate.CommentCreateResponse;
+import com.ipseg.studyTime.api.comment.dto.commentModify.CommentModifyRequest;
+import com.ipseg.studyTime.api.comment.dto.commentModify.CommentModifyResponse;
+import com.ipseg.studyTime.api.comment.dto.commentQuery.CommentQueryRequest;
+import com.ipseg.studyTime.api.comment.dto.commentQuery.CommentQueryResponse;
 import com.ipseg.studyTime.api.comment.mapper.CommentMapper;
 import com.ipseg.studyTime.api.comment.model.Comment;
 import com.ipseg.studyTime.common.ResultCode;
-import com.ipseg.studyTime.common.response.ApiResultEntity;
 import com.ipseg.studyTime.common.response.BusinessException;
-import org.springframework.http.ResponseEntity;
+import lombok.Setter;
 import org.springframework.stereotype.Service;
 
-import javax.xml.transform.Result;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -22,11 +30,11 @@ public class CommentService {
         this.commentMapper = commentMapper;
     }
 
-    public Comment addComment(Comment comment) {
+    public CommentCreateResponse addComment(CommentCreateRequest request) {
         HashMap<String, Object> dbMap = new HashMap<>();
-        dbMap.put("timerSeq", comment.getTimerSeq());
-        dbMap.put("userSeq", comment.getUserSeq());
-        dbMap.put("contents", comment.getContents());
+        dbMap.put("timerSeq", request.getTimerSeq());
+        dbMap.put("userSeq", request.getUserSeq());
+        dbMap.put("contents", request.getContents());
 
         int timer = commentMapper.getTimerByTimerSeq(dbMap);
 
@@ -39,10 +47,14 @@ public class CommentService {
             throw new BusinessException(ResultCode.ERROR_009);
         }
 
-        return comment;
+        Comment comment = new Comment();
+        CommentCreateResponse response = new CommentCreateResponse();
+        response.setTimerSeq(comment.getTimerSeq());
+        map(response, comment);
+        return response;
     }
 
-    public List<Comment> getCommentList(Comment comment) {
+    public List<CommentQueryResponse> getCommentList(CommentQueryRequest comment) {
         HashMap<String, Object> dbMap = new HashMap<>();
         dbMap.put("timerSeq", comment.getTimerSeq());
 
@@ -54,17 +66,13 @@ public class CommentService {
 
         List<HashMap<String, Object>> commentList = commentMapper.getCommentList(dbMap);
 
-        return commentList.stream().map(row -> new Comment(
-                (Integer) row.get("USER_SEQ"),
-                (Integer) row.get("TIME_SEQ"),
-                (Integer) row.get("USER_SEQ"),
-                (String) row.get("CONTENTS"),
-                (String) row.get("CREATE_DATE"),
-                (String) row.get("UPDATE_DATE")))
-                .collect(Collectors.toList());
+        // TODO : 리스트 변환
+        List<CommentQueryResponse> list =  new ArrayList<>();
+        list.add(new CommentQueryResponse());
+        return list;
     }
 
-    public Comment modifyComment(Comment comment) {
+    public List<CommentModifyResponse> modifyComment(CommentModifyRequest comment) {
         HashMap<String, Object> dbMap = new HashMap<>();
         dbMap.put("timerSeq", comment.getTimerSeq());
         dbMap.put("commentSeq", comment.getCommentSeq());
@@ -79,10 +87,13 @@ public class CommentService {
             throw new BusinessException(ResultCode.ERROR_001);
         }
 
-        return comment;
+        // TODO : 리스트 변환
+        List<CommentModifyResponse> list =  new ArrayList<>();
+        list.add(new CommentModifyResponse());
+        return list;
     }
 
-    public boolean deleteComment(Comment comment) {
+    public CommentDeleteResponse deleteComment(CommentDeleteRequest comment) {
         HashMap<String, Object> dbMap = new HashMap<>();
         dbMap.put("commentSeq", comment.getCommentSeq());
 
@@ -91,6 +102,17 @@ public class CommentService {
         }
 
         int result = commentMapper.deleteComment(dbMap);
-        return result > 0;
+        CommentDeleteResponse response = new CommentDeleteResponse();
+        response.setStatus(result > 0);
+        return response;
+    }
+
+    private <T extends CommentDto> T map(T target, Comment comment) {
+        target.setTimerSeq(comment.getTimerSeq());
+        target.setUserSeq(comment.getUserSeq());
+        target.setContents(comment.getContents());
+        target.setCreateDate(comment.getCreateDate());
+        target.setUpdateDate(comment.getUpdateDate());
+        return target;
     }
 }
