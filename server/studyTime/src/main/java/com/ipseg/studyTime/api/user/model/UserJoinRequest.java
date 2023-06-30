@@ -19,6 +19,8 @@ public class UserJoinRequest {
     @NotEmpty
     private String encName;
 
+    
+    // TODO: 서비스로 옮김
     public static User toEntity(UserJoinRequest dto) {
         return User.builder()
                 .encId(dto.encId)

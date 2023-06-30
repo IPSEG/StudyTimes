@@ -1,15 +1,21 @@
 package com.ipseg.studyTime.api.timer.service;
 
+import com.ipseg.studyTime.api.timer.dto.TimerQuery.TimerQueryRequest;
+import com.ipseg.studyTime.api.timer.dto.TimerDto;
+import com.ipseg.studyTime.api.timer.dto.TimerQuery.TimerQueryResponse;
+import com.ipseg.studyTime.api.timer.dto.timerCreate.TimerCreateRequest;
+import com.ipseg.studyTime.api.timer.dto.timerCreate.TimerCreateResponse;
+import com.ipseg.studyTime.api.timer.dto.timerDelete.TimerDeleteRequest;
+import com.ipseg.studyTime.api.timer.dto.timerDelete.TimerDeleteResponse;
+import com.ipseg.studyTime.api.timer.dto.timerModify.TimerModifyRequest;
+import com.ipseg.studyTime.api.timer.dto.timerModify.TimerModifyResponse;
 import com.ipseg.studyTime.api.timer.mapper.TimerMapper;
 import com.ipseg.studyTime.api.timer.model.Timer;
 import com.ipseg.studyTime.common.ResultCode;
-import com.ipseg.studyTime.common.response.ApiResultEntity;
 import com.ipseg.studyTime.common.response.BusinessException;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.sql.Time;
 import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -24,59 +30,64 @@ public class TimerService {
         this.timerMapper = timerMapper;
     }
 
-    public Timer addTimer(Timer timer) {
+    public TimerCreateResponse addTimer(TimerCreateRequest timerInformation) {
         HashMap<String, Object> dbMap = new HashMap<>();
-        dbMap.put("days", timer.getDays());
-        dbMap.put("hours", timer.getHours());
-        dbMap.put("minutes", timer.getMinutes());
-        dbMap.put("seconds", timer.getSeconds());
-        dbMap.put("userSeq", timer.getUserSeq());
+        dbMap.put("days", timerInformation.getDays());
+        dbMap.put("hours", timerInformation.getHours());
+        dbMap.put("minutes", timerInformation.getMinutes());
+        dbMap.put("seconds", timerInformation.getSeconds());
+        dbMap.put("userSeq", timerInformation.getUserSeq());
         int result = timerMapper.addTimer(dbMap);
         if (result <= 0) {
             throw new BusinessException(ResultCode.ERROR_001);
         }
 
-        return timer;
-    }
+        Timer timer = new Timer(); // TODO: 실제 처리된 Entity로 변경할 것
+        TimerCreateResponse response = new TimerCreateResponse();
+        timer.setTimerSeq(timer.getTimerSeq());
+        map(timer, response);
 
-    public List<Timer> getUserTimer(Timer timer) {
+        return response;
+    }
+    public List<TimerQueryResponse> getUserTimer(TimerQueryRequest query) {
         HashMap<String, Object> dbMap = new HashMap<>();
-        dbMap.put("userSeq", timer.getUserSeq());
+        dbMap.put("userSeq", query.getUserSeq());
 
         List<HashMap<String, Object>> timerList = timerMapper.getUserTimer(dbMap);
 
         return timerList.stream()
-                .map(row -> Timer.builder()
-                        .timerSeq((Integer) row.get("TIMER_SEQ"))
-                        .userSeq((Integer) row.get("USER_SEQ"))
-                        .days((int) row.get("DAYS"))
-                        .hours((int) row.get("HOURS"))
-                        .minutes((int) row.get("MINUTES"))
-                        .seconds((int) row.get("SECONDS"))
-                        .createDate((String) row.get("CREATE_DATE"))
-                        .updateDate((String) row.get("UPDATE_DATE"))
-                        .build())
+                .map(row -> {
+                    Timer timer = new Timer(); // TODO: 실제 리턴 값 대신 사용
+                    TimerQueryResponse response = new TimerQueryResponse();
+                    map(timer, response);
+                    response.setTimerSeq(timer.getTimerSeq());
+                    return response;
+                })
                 .collect(Collectors.toList());
     }
 
-    public Timer modifyTimer(Timer timer) {
+    public TimerModifyResponse modifyTimer(TimerModifyRequest request) {
         HashMap<String, Object> dbMap = new HashMap<>();
-        dbMap.put("userSeq", timer.getUserSeq());
-        dbMap.put("timerSeq", timer.getTimerSeq());
-        dbMap.put("days", timer.getDays());
-        dbMap.put("hours", timer.getHours());
-        dbMap.put("minutes", timer.getMinutes());
-        dbMap.put("seconds", timer.getSeconds());
+        dbMap.put("userSeq", request.getUserSeq());
+        dbMap.put("timerSeq", request.getTimerSeq());
+        dbMap.put("days", request.getDays());
+        dbMap.put("hours", request.getHours());
+        dbMap.put("minutes", request.getMinutes());
+        dbMap.put("seconds", request.getSeconds());
         int result = timerMapper.modifyTimer(dbMap);
 
         if (result <= 0) {
             throw new BusinessException(ResultCode.ERROR_001);
         }
+        Timer timer = new Timer(); // TODO: 실제 처리된 Entity로 변경할 것
+        TimerModifyResponse response = new TimerModifyResponse();
+        timer.setTimerSeq(timer.getTimerSeq());
+        map(timer, response);
 
-        return timer;
+        return response;
     }
 
-    public boolean deleteTimer(Timer timer) {
+    public TimerDeleteResponse deleteTimer(TimerDeleteRequest timer) {
         HashMap<String, Object> dbMap = new HashMap<>();
         dbMap.put("timerSeq", timer.getTimerSeq());
 
@@ -85,6 +96,19 @@ public class TimerService {
         }
 
         int result = timerMapper.deleteTimer(dbMap);
-        return result > 0;
+        TimerDeleteResponse response = new TimerDeleteResponse();
+        response.setStatus(result > 0);
+        return  response;
+    }
+
+
+
+    private <T extends TimerDto> T map(Timer timer, T dto) {
+        dto.setDays(timer.getDays());
+        dto.setHours(timer.getHours());
+        dto.setMinutes(timer.getMinutes());
+        dto.setCreateDate(timer.getCreateDate());
+        dto.setUpdateDate(timer.getUpdateDate());
+        return dto;
     }
 }
