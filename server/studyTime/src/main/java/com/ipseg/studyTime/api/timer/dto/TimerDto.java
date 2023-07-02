@@ -1,11 +1,11 @@
-package com.ipseg.studyTime.api.timer.model;
+package com.ipseg.studyTime.api.timer.dto;
 
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
 
 @Getter
 @Setter
-public class Timer {
-    private Integer timerSeq;
+public class TimerDto {
     private Integer userSeq;
     private int days;
     private int hours;

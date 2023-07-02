@@ -1,16 +1,11 @@
-package com.ipseg.studyTime.api.comment.model;
+package com.ipseg.studyTime.api.comment.dto;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
-@NoArgsConstructor
-@AllArgsConstructor
-public class Comment {
-    private Integer commentSeq;
+public class CommentDto {
     private Integer timerSeq;
     private Integer userSeq;
     private String contents;
