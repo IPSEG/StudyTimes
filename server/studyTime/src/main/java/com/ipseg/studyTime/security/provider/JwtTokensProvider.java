@@ -1,6 +1,6 @@
 package com.ipseg.studyTime.security.provider;
 
-import com.ipseg.studyTime.security.filter.JwtUtils;
+import com.ipseg.studyTime.security.utils.JwtUtils;
 import com.ipseg.studyTime.security.service.CustomUserDetailsService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

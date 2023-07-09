@@ -1,4 +1,4 @@
-package com.ipseg.studyTime.security.filter;
+package com.ipseg.studyTime.security.utils;
 
 import com.ipseg.studyTime.common.Constant;
 import io.jsonwebtoken.Claims;
