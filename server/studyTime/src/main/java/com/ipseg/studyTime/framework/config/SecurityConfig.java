@@ -17,8 +17,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig {
 
     @Autowired
-    public JwtAuthenticateFilter jwtAuthenticateFilter;
-
+    JwtAuthenticateFilter jwtAuthenticateFilter;
     @Bean
     protected SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf().disable()
@@ -27,6 +26,7 @@ public class SecurityConfig {
         http.addFilterBefore(jwtAuthenticateFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
+
 
     //참고용으로 임시로 남겨 놓음.
 //    @Bean
