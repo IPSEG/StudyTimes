@@ -1,4 +1,4 @@
-package com.ipseg.studyTime.security.utils;
+package com.ipseg.studyTime.framework.config;
 
 import com.ipseg.studyTime.common.Constant;
 import com.ulisesbocchio.jasyptspringboot.annotation.EnableEncryptableProperties;
@@ -13,7 +13,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class JasyptConfig {
 
-    @Value("${jasypt.encryptor.password:changeit}")
+    @Value("${jasypt.encryptor.password:mustBeChanged}")
     private String encryptKey;
 
     @Bean(Constant.JASYPT_PROPERTY_ENCRYPTOR)
