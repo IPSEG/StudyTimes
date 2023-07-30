@@ -12,7 +12,7 @@ import javax.sql.DataSource;
 import java.io.IOException;
 
 @Configuration
-@MapperScan("com.ipseg.studyTime.api.**.mapper")
+@MapperScan(basePackages = {"com.ipseg.studyTime.api.**.mapper", "com.ipseg.studyTime.security.mapper"})
 public class MybatisConfig {
 
     @Bean
