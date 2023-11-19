@@ -1,6 +1,6 @@
 <template>
-  - my page
+    home
 </template>
-
+  
 <script setup>
 </script>
