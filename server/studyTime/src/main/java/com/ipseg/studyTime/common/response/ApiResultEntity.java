@@ -6,7 +6,7 @@ import org.springframework.http.ResponseEntity;
 
 public class ApiResultEntity {
 
-    public static <T> ResponseEntity<Object> success() {
+    public static <T> ResponseEntity<ApiResult<T>> success() {
         final ApiResult<T> body = new ApiResult<>(ResultCode.SUCCESS.code(), ResultCode.SUCCESS.msg());
         return new ResponseEntity<>(body, HttpStatus.OK);
     }
@@ -21,12 +21,12 @@ public class ApiResultEntity {
         return new ResponseEntity<>(body, HttpStatus.OK);
     }
 
-    public static <T> ResponseEntity<Object> fail(ResultCode resultCode) {
+    public static <T> ResponseEntity<ApiResult<T>> fail(ResultCode resultCode) {
         ApiResult<T> body = new ApiResult<>(resultCode.code(), resultCode.msg());
         return new ResponseEntity<>(body, HttpStatus.OK);
     }
 
-    public static <T> ResponseEntity<Object> fail() {
+    public static <T> ResponseEntity<ApiResult<T>> fail() {
         ApiResult<T> body = new ApiResult<>(ResultCode.ERROR_001.code(), ResultCode.ERROR_001.msg());
         return new ResponseEntity<>(body, HttpStatus.OK);
     }

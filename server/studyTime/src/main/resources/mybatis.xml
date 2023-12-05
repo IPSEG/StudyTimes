@@ -16,5 +16,6 @@
     </settings>
 
     <typeAliases>
+        <typeAlias type="com.ipseg.studyTime.common.utils.ConvertHashMap" alias="ConvertHashMap"/>
     </typeAliases>
 </configuration>

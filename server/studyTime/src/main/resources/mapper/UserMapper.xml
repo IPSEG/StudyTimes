@@ -1,22 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ipseg.studyTime.api.user.mapper.UserMapper">
-    <insert id="joinUser" parameterType="hashmap">
-        INSERT INTO USER
-        (
-            USER_ID,
-            USER_PASS,
-            USER_NAME
-            CREATE_DT
-        )
-        VALUES
-        (
-            #{userId},
-            #{userPass},
-            #{userName},
-            current_timestamp
-        )
+    <insert id="setUser" parameterType="hashMap">
+        INSERT INTO USER_INFO (USER_ID, USER_PASS, USER_NAME, USER_TYPE)
+        VALUES (#{userId}, #{userPass}, #{userName}, #{userType})
     </insert>
 
+    <insert id="setSalt" parameterType="hashMap">
+        INSERT INTO USER_SALT (USER_ID, USER_SALT)
+        VALUES (#{userId}, #{userSalt})
+    </insert>
+
+    <select id="findById" parameterType="string" resultType="int">
+        SELECT COUNT(*) FROM USER_INFO WHERE USER_ID = #{id}
+    </select>
+
+    <select id="getSalt" parameterType="string" resultType="string">
+        SELECT user_salt FROM USER_SALT WHERE USER_ID = #{id}
+    </select>
+
+    <select id="selectUserByUserId" parameterType="string" resultType="com.ipseg.studyTime.common.utils.ConvertHashMap">
+        SELECT * FROM USER_INFO WHERE USER_ID = #{userId}
+    </select>
 
 </mapper>
